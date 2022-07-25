@@ -13,7 +13,7 @@ class _UserAccount extends State<UserAccount>{
 
   String scanResult;
   bool barcodeGenerated=false;
-  final ids=['IT','CS','ECE'];
+  final ids=['IT','CS','ECE','EEE','MECH'];
 
   @override
   void initState(){
@@ -26,6 +26,7 @@ class _UserAccount extends State<UserAccount>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text('User Account'),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
@@ -40,7 +41,7 @@ class _UserAccount extends State<UserAccount>{
           child: Column(
             children: <Widget>[
               Visibility(
-                visible: barcodeGenerated,
+                visible: barcodeGenerated==true? true : false,
                 child: Card(
                   color: Colors.white,
                   elevation: 6,
@@ -48,7 +49,7 @@ class _UserAccount extends State<UserAccount>{
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: BarcodeWidget(
-                      data: scanResult!=null? scanResult:"PEC Library Card",
+                      data: scanResult,
                       barcode:Barcode.code128(),
                       width: 200,
                       height: 50,
@@ -58,12 +59,11 @@ class _UserAccount extends State<UserAccount>{
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
-                child: RaisedButton.icon(
-                    color: Colors.blue,
+                child: ElevatedButton.icon(
                     onPressed: scanBarCode,
                     icon: Icon(Icons.line_weight),
                     label: Text(
-                      barcodeGenerated?'Edit Barcode': 'Scan Barcode',
+                      barcodeGenerated==true?'Edit Barcode': 'Scan Barcode',
                     style: TextStyle(color: Colors.white),)),
               )
             ],
@@ -74,7 +74,6 @@ class _UserAccount extends State<UserAccount>{
   }
   Future<void> scanBarCode() async{
     String scanResult;
-    bool barcodeGenerated=false;
     try{
       scanResult=await FlutterBarcodeScanner.scanBarcode(
           "#ff6666",
@@ -82,14 +81,15 @@ class _UserAccount extends State<UserAccount>{
           true,
           ScanMode.BARCODE);
     }on PlatformException{
-      scanResult='Invalid code';
+      this.scanResult='Invalid code';
     }
     for(int i=0;i<ids.length;i++){
       if(scanResult.contains(ids[i])){
         await UserSimplePreferences.setBarcode(this.scanResult=scanResult);
-        await UserSimplePreferences.setBarcodeGenerated(this.barcodeGenerated=!barcodeGenerated);
+        await UserSimplePreferences.setBarcodeGenerated(this.barcodeGenerated=true);
         setState(() {
           this.scanResult=scanResult;
+          this.barcodeGenerated=true;
         });
       }
     }

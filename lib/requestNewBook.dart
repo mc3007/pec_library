@@ -23,6 +23,7 @@ class _RequestNewBook extends State<RequestNewBook>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text('Request new book'),
       ),
       body: Form(
@@ -101,8 +102,7 @@ class _RequestNewBook extends State<RequestNewBook>{
                 ),
               ),
               Center(
-                child: RaisedButton(
-                    color: Colors.blue,
+                child: ElevatedButton(
                     onPressed: (){},
                     child: Text(
                       "Request",
