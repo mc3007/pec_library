@@ -1,6 +1,9 @@
 # pec_library
 
 A new Flutter application.
+App screen recordings:
+https://drive.google.com/file/d/1ZsbpYtV-qd50e0Agrbg0KwRQBBjTYmAE/view?usp=sharing
+https://drive.google.com/file/d/1pFQ3Z1nsFia-buzcktExh41Lymt4lVtz/view?usp=sharing
 
 ## Getting Started
 
